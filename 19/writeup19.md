@@ -6,14 +6,12 @@ zipファイルの中にあるファイルの中身を一つでも知ってい�
 もう`Standard-lock-key.jpg`とか絶対ネットに転がってるやつやんと思ったら案の定転がっていた。(https://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB:Standard-lock-key.jpg)
 ここの画像を保存し、
 `pkcrack -C flag.zip -c Standard-lock-key.jpg -p Standard-lock-key.jpg -d flag2.zip`
-と叩いた。が、失敗した。
+と叩いた。`pkcrack`は`brew install pkcrack`でmacにインストールできる。
 
-`pkcrack`は`brew install pkcrack`でmacにインストールできる。
-
-
-違うファイルを取ってきたのかと思い、ファイルサイズを調べてみる。
+しかし、最初は失敗した。
+ファイルのサイズが間違っているのかと思い、ファイルサイズを調べてみる。
 `binwalk flag.zip`とすると
 `Standard-lock-key.jpg`のファイルサイズは255964。`binwalk`も`brew install binwalk`でいけるはず。
-
-先のWikiで元ファイルというのを保存すると、そのサイズは255964。
-普通に考えて元ファイルに決まってたなと思いながらもう一度`pkcrack`を叩くと成功。Flagゲット。
+先ほどダウンロードしたファイルははるかに小さいサイズとなっていた。
+先のWikiで他のサイズがあるかと探すと、元ファイルというのがあったのでそれを保存。サイズは255964でビンゴ。
+もう一度`pkcrack`を叩くと成功。Flagゲット。
