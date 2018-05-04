@@ -1,0 +1,19 @@
+zip の脆弱性を調べてみると、[既知平文攻撃](http://www.stockdog.work/entry/2017/07/09/131657)というのがあるらしい。
+zipファイルの中にあるファイルの中身を一つでも知っていたらパスワードが分かってしまうらしい。怖い。
+今回の問題では、`unzip`コマンドを叩くとパスワードを求められ、何も入力せずにエンターを押すと
+`flag.html`と`Standard-lock-key.jpg`というファイルが中にあることがわかる。
+
+もう`Standard-lock-key.jpg`とか絶対ネットに転がってるやつやんと思ったら案の定転がっていた。(https://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB:Standard-lock-key.jpg)
+ここの画像を保存し、
+`pkcrack -C flag.zip -c Standard-lock-key.jpg -p Standard-lock-key.jpg -d flag2.zip`
+と叩いた。が、失敗した。
+
+`pkcrack`は`brew install pkcrack`でmacにインストールできる。
+
+
+違うファイルを取ってきたのかと思い、ファイルサイズを調べてみる。
+`binwalk flag.zip`とすると
+`Standard-lock-key.jpg`のファイルサイズは255964。`binwalk`も`brew install binwalk`でいけるはず。
+
+先のWikiで元ファイルというのを保存すると、そのサイズは255964。
+普通に考えて元ファイルに決まってたなと思いながらもう一度`pkcrack`を叩くと成功。Flagゲット。
